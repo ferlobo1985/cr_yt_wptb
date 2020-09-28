@@ -1,4 +1,5 @@
 import React,{ Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 const MyContext = React.createContext();
 
@@ -27,6 +28,23 @@ class MyProvider extends Component {
     }
 
     nextHandler = () =>{ 
+        const { players } = this.state;
+
+        if(players.length < 2){
+            //// show toast
+            toast.error("You need more than one player",{
+                position:toast.POSITION.TOP_LEFT,
+                autoClose:2000
+            })
+        } else {
+            this.setState({
+                stage:2
+            },()=> {
+                setTimeout(()=>{
+                console.log('the loser is blah')
+                },2000)
+            })
+        }
 
     }
 
@@ -42,6 +60,7 @@ class MyProvider extends Component {
                 }}>
                     {this.props.children}
                 </MyContext.Provider>
+                <ToastContainer/>
             </>
         )
     }
