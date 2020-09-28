@@ -70,9 +70,13 @@ class MyProvider extends Component {
                     state: this.state,
                     addPlayer: this.addPlayerHandler,
                     removePlayer: this.removePlayerHalder,
+<<<<<<< HEAD
                     next: this.nextHandler,
                     resetGame: this.resetGame,
                     getNewLooser: this.generateLooser
+=======
+                    next: this.nextHandler
+>>>>>>> 04--adding-toasts-and-moving-to-stage-2
                 }}>
                     {this.props.children}
                 </MyContext.Provider>
