@@ -10,11 +10,35 @@ class MyProvider extends Component {
         result:''
     }
 
+    addPlayerHandler = (name) => {
+        this.setState((prevState,props)=>({
+            players: [
+                ...prevState.players,
+                name
+            ]
+        }));
+    }
+
+    removePlayerHalder = (idx) => {
+        let newArray = this.state.players; // create a copy
+        newArray.splice(idx,1); // remove by position 
+
+        this.setState({ players:newArray })
+    }
+
+    nextHandler = () =>{ 
+
+    }
+
+
     render(){
         return(
             <>
                 <MyContext.Provider value={{
-                    state: this.state
+                    state: this.state,
+                    addPlayer: this.addPlayerHandler,
+                    removePlayer: this.removePlayerHalder,
+                    next: this.nextHandler
                 }}>
                     {this.props.children}
                 </MyContext.Provider>

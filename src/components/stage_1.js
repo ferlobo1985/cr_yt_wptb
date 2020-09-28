@@ -1,18 +1,22 @@
-import React from 'react';
+import React,{ useContext } from 'react';
 import { Form,Button,Alert} from  'react-bootstrap';
 import { useFormik } from  'formik';
 import * as Yup from 'yup';
 
+import { MyContext } from '../context';
+
 const Stage1 = () => {
+    const context = useContext(MyContext);
 
     const formik = useFormik({
         initialValues:{ player:'' },
         validationSchema: Yup.object({
-            player: Yup.string().max(5,'Must be 15 character or less')
+            player: Yup.string().max(15,'Must be 15 character or less')
             .required('Sorry, the name is required')
         }),
-        onSubmit: ( values)=>{
-            console.log(values)
+        onSubmit: (values,{resetForm})=>{
+           context.addPlayer(values.player);
+           resetForm();
         }
     })
 
@@ -38,6 +42,34 @@ const Stage1 = () => {
                     Add player
                 </Button>
             </Form>
+
+            {
+                context.state.players && context.state.players.length > 0 ?
+                <>  
+                    <hr/>
+                    <div>
+                        <ul className="list-group">
+                           { context.state.players.map((item,idx)=>(
+                               <li key={idx} className="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+                                   {item}
+                                   <span 
+                                    className="badge badge-danger"
+                                    onClick={()=> context.removePlayer(idx)}
+                                    >x</span>
+                               </li>
+                           ))} 
+                        </ul>
+                        <div
+                            className="action_button"
+                            onClick={ ()=> context.next() }
+                        >
+                            NEXT
+                        </div>
+                    </div>
+                </>
+                :null
+            }
+
         </>
     )
 }
